@@ -1,3 +1,8 @@
+using GymManagementSystem.DAL.Repoistory.Implementation;
+using GymManagementSystem.DAL.Repoistory.Interfaces;
+using GymSystemManagement.DbContexts;
+using Microsoft.EntityFrameworkCore;
+
 namespace GymSystemManagement
 {
     public class Program
@@ -8,6 +13,11 @@ namespace GymSystemManagement
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IPlanRepoistory, FakeRepository>();
+            builder.Services.AddDbContext<GymDbContext>(Options=>
+            {
+                Options.UseSqlServer(builder.Configuration.GetConnectionString("defaultSettings"));
+            });
 
             var app = builder.Build();
 
